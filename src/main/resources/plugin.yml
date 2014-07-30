@@ -1,5 +1,7 @@
 name: SkyPrint
 version: 1.0.0
+author: DziNeIT
+website: http://ollie.pw
 main: pw.ollie.skyprint.SkyPrint
 
 commands:
