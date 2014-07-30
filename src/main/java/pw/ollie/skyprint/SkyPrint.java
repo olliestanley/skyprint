@@ -8,9 +8,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import pw.ollie.skyprint.Editor.Direction;
-import pw.ollie.skyprint.Editor.LocationData;
-import pw.ollie.skyprint.Editor.UnsupportedCharacterException;
+import pw.ollie.skyprint.exception.InvalidRotationException;
+import pw.ollie.skyprint.exception.UnsupportedCharacterException;
+import pw.ollie.skyprint.util.Direction;
+import pw.ollie.skyprint.util.LocationData;
 
 public final class SkyPrint extends JavaPlugin implements CommandExecutor {
 	@Override
@@ -57,8 +58,15 @@ public final class SkyPrint extends JavaPlugin implements CommandExecutor {
 			}
 
 			final Player player = (Player) sender;
-			final Direction dir = Direction.fromVector(player.getLocation()
-					.getDirection());
+
+			Direction dir = null;
+			try {
+				dir = Direction.fromLocation(player.getLocation());
+			} catch (final InvalidRotationException e) {
+				sender.sendMessage(ChatColor.DARK_RED
+						+ "Failed to generate characters!");
+				return true;
+			}
 
 			Editor editor;
 			try {
@@ -78,6 +86,7 @@ public final class SkyPrint extends JavaPlugin implements CommandExecutor {
 			} catch (final Exception e) {
 				sender.sendMessage(ChatColor.DARK_RED
 						+ "Error writing message!");
+				return true;
 			}
 		}
 
