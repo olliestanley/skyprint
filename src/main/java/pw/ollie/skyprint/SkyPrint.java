@@ -18,7 +18,7 @@ import pw.ollie.skyprint.util.Direction;
 import pw.ollie.skyprint.util.LocationData;
 
 public final class SkyPrint extends JavaPlugin implements CommandExecutor {
-	private final List<Editor> edits = new ArrayList<Editor>();
+	private final List<Edit> edits = new ArrayList<Edit>();
 
 	@Override
 	public void onEnable() {
@@ -76,13 +76,13 @@ public final class SkyPrint extends JavaPlugin implements CommandExecutor {
 				return true;
 			}
 
-			Editor editor;
+			Edit edit;
 			try {
-				editor = new Editor(this, id, new LocationData(
+				edit = new Edit(this, id, new LocationData(
 						player.getEyeLocation()), mat, dir, player.getWorld()
 						.getName(), words.toCharArray());
 
-				edits.add(0, editor);
+				edits.add(0, edit);
 			} catch (final UnsupportedCharacterException e) {
 				sender.sendMessage(ChatColor.DARK_RED + "Character: "
 						+ e.getMessage() + " isn't supported!");
@@ -92,7 +92,7 @@ public final class SkyPrint extends JavaPlugin implements CommandExecutor {
 			sender.sendMessage(ChatColor.GRAY + "Writing message...");
 
 			try {
-				editor.write();
+				edit.write();
 			} catch (final Exception e) {
 				sender.sendMessage(ChatColor.DARK_RED
 						+ "Error writing message!");
@@ -112,7 +112,7 @@ public final class SkyPrint extends JavaPlugin implements CommandExecutor {
 			}
 
 			final UUID id = ((Player) sender).getUniqueId();
-			for (final Editor edit : edits) {
+			for (final Edit edit : edits) {
 				if (edit.getPlayerId().equals(id)) {
 					edit.undo();
 					edits.remove(edit);
