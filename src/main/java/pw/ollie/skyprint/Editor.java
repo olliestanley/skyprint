@@ -2,41 +2,41 @@ package pw.ollie.skyprint;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
+import org.bukkit.block.Block;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import pw.ollie.skyprint.exception.UnsupportedCharacterException;
+import pw.ollie.skyprint.util.BlockChange;
 import pw.ollie.skyprint.util.Direction;
 import pw.ollie.skyprint.util.LocationData;
 
 /**
  * A class which allows for the writing out of character and therefore words in
  * the Minecraft sky
- * 
- * TODO: Support different directions + add Direction.fromVector
  */
 public final class Editor {
 	private final Plugin plugin;
+	private final UUID player;
 	private final LocationData start;
 	private final Material material;
 	private final Direction direction;
 	private final String world;
 
 	private SkyCharacter[] characters;
-	private boolean ready;
+	private List<BlockChange> changed;
 
-	public Editor(final Plugin plugin, final LocationData start,
-			final Material material, final Direction direction,
-			final String world, final char... characters)
-			throws UnsupportedCharacterException {
+	public Editor(final Plugin plugin, final UUID player,
+			final LocationData start, final Material material,
+			final Direction direction, final String world,
+			final char... characters) throws UnsupportedCharacterException {
 		this.plugin = plugin;
+		this.player = player;
 		this.start = start;
 		this.material = material;
 		this.direction = direction;
@@ -50,6 +50,8 @@ public final class Editor {
 						String.valueOf(characters[cur]));
 			}
 		}
+
+		changed = new ArrayList<BlockChange>();
 	}
 
 	/**
@@ -72,18 +74,19 @@ public final class Editor {
 						final int[] row = raw[y];
 						for (int x = 0; x < row.length; x++) {
 							if (raw[y][x] == 1) {
-								// TODO: Compute the below based on direction
-								final int xMod = x;
-								final int zMod = 0;
+								final int[] mods = calcMod(x);
+								final int xMod = mods[0];
+								final int zMod = mods[1];
 
 								list.add(new LocationData(cur.x + xMod, cur.y
-										- y, cur.z));
+										- y, cur.z + zMod));
 							}
 						}
 					}
 
-					// TODO: Support different directions
-					modX += raw[0].length + 1;
+					final int[] mods = calcMod(raw[0].length + 1);
+					modX += mods[0];
+					modZ += mods[1];
 				}
 
 				new BukkitRunnable() {
@@ -91,11 +94,46 @@ public final class Editor {
 					public void run() {
 						final World w = Bukkit.getWorld(world);
 						for (final LocationData loc : list) {
-							w.getBlockAt(loc.x, loc.y, loc.z).setType(material);
+							final Block block = w.getBlockAt(loc.x, loc.y,
+									loc.z);
+							final Material before = block.getType();
+							block.setType(material);
+							changed.add(new BlockChange(player,
+									new LocationData(loc), before, material));
 						}
 					}
 				}.runTask(plugin);
 			}
 		}.runTaskAsynchronously(plugin);
+	}
+
+	/**
+	 * Undoes the edit performed by this editor
+	 */
+	public void undo() {
+		final World wrld = Bukkit.getWorld(world);
+		for (final BlockChange change : changed) {
+			final LocationData loc = change.loc;
+			wrld.getBlockAt(loc.x, loc.y, loc.z).setType(change.before);
+		}
+	}
+
+	public UUID getPlayerId() {
+		return player;
+	}
+
+	private int[] calcMod(int distance) {
+		switch (direction) {
+		case NORTH:
+			return new int[] { 0, distance };
+		case EAST:
+			return new int[] { distance, 0 };
+		case SOUTH:
+			return new int[] { 0, -distance };
+		case WEST:
+			return new int[] { -distance, 0 };
+		default:
+			return null;
+		}
 	}
 }

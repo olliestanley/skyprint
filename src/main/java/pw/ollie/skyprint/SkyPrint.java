@@ -1,5 +1,9 @@
 package pw.ollie.skyprint;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -14,9 +18,12 @@ import pw.ollie.skyprint.util.Direction;
 import pw.ollie.skyprint.util.LocationData;
 
 public final class SkyPrint extends JavaPlugin implements CommandExecutor {
+	private final List<Editor> edits = new ArrayList<Editor>();
+
 	@Override
 	public void onEnable() {
 		getCommand("skywrite").setExecutor(this);
+		getCommand("skyundo").setExecutor(this);
 	}
 
 	@Override
@@ -58,6 +65,7 @@ public final class SkyPrint extends JavaPlugin implements CommandExecutor {
 			}
 
 			final Player player = (Player) sender;
+			final UUID id = player.getUniqueId();
 
 			Direction dir = null;
 			try {
@@ -70,9 +78,11 @@ public final class SkyPrint extends JavaPlugin implements CommandExecutor {
 
 			Editor editor;
 			try {
-				editor = new Editor(this, new LocationData(
+				editor = new Editor(this, id, new LocationData(
 						player.getEyeLocation()), mat, dir, player.getWorld()
 						.getName(), words.toCharArray());
+
+				edits.add(0, editor);
 			} catch (final UnsupportedCharacterException e) {
 				sender.sendMessage(ChatColor.DARK_RED + "Character: "
 						+ e.getMessage() + " isn't supported!");
@@ -88,6 +98,32 @@ public final class SkyPrint extends JavaPlugin implements CommandExecutor {
 						+ "Error writing message!");
 				return true;
 			}
+		} else if (cmd.getName().equalsIgnoreCase("skyundo")) {
+			if (!(sender.hasPermission("skyprint.use"))) {
+				sender.sendMessage(ChatColor.DARK_RED
+						+ "You don't have permission to do that!");
+				return true;
+			}
+
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(ChatColor.DARK_RED
+						+ "You must be a player to do that!");
+				return true;
+			}
+
+			final UUID id = ((Player) sender).getUniqueId();
+			for (final Editor edit : edits) {
+				if (edit.getPlayerId().equals(id)) {
+					edit.undo();
+					edits.remove(edit);
+					sender.sendMessage(ChatColor.GRAY + "Undid last edit!");
+					return true;
+				}
+			}
+
+			sender.sendMessage(ChatColor.DARK_RED
+					+ "You don't have an edit to undo!");
+			return true;
 		}
 
 		return true;

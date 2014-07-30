@@ -5,6 +5,8 @@ main: pw.ollie.skyprint.SkyPrint
 commands:
     skywrite:
         description: Writes a message in the sky
+    skyundo:
+        description: Undoes last edit
 
 permission:
     skyprint.use:
