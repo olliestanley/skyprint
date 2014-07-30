@@ -137,7 +137,7 @@ public enum SkyCharacter {
 			new int[][] { new int[] { 0, 0, 0 }, new int[] { 0, 0, 0 }, new int[] { 1, 1, 1 }, new int[] { 0, 0, 0 }, new int[] { 0, 0, 0 } }),
 	APOSTROPHE('\'', new int[][] { new int[] { 1 } }),
 	POUND(
-			'£',
+			'\u00A3',
 			new int[][] { new int[] { 0, 1, 1 }, new int[] { 1, 0, 1 }, new int[] { 1, 1, 0 }, new int[] { 1, 0, 0 }, new int[] { 1, 1, 1 } }),
 	SPEECH('"', new int[][] { new int[] { 1, 0, 1 } }),
 	BRACKET_OPEN(
