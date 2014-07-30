@@ -1,0 +1,7 @@
+name: SkyPrint
+version: 1.0.0
+main: pw.ollie.skyprint.SkyPrint
+
+commands:
+    skywrite:
+        description: Writes a message in the sky
