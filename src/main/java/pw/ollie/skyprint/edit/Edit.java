@@ -17,20 +17,63 @@ import pw.ollie.skyprint.util.Direction;
 import pw.ollie.skyprint.util.LocationData;
 
 /**
- * A class which allows for the writing out of character and therefore words in
+ * A class which allows for the writing out of characters and therefore words in
  * the Minecraft sky
  */
 public final class Edit {
+	/**
+	 * The plugin this Edit is related to. Used for task scheduling
+	 */
 	private final Plugin plugin;
+	/**
+	 * The unique identifier of the player who initiated the Edit
+	 */
 	private final UUID player;
+	/**
+	 * The starting location for this Edit
+	 */
 	private final LocationData start;
+	/**
+	 * The material to write the character blocks in
+	 */
 	private final Material material;
+	/**
+	 * The direction to write the characters in
+	 */
 	private final Direction direction;
+	/**
+	 * The name of the world this Edit takes place in
+	 */
 	private final String world;
-
+	/**
+	 * An array of the characters to be written out in this Edit
+	 */
 	private final SkyCharacter[] characters;
+	/**
+	 * A List of block changes which this Edit caused
+	 */
 	private final List<BlockChange> changed;
 
+	/**
+	 * Constructs a new Edit with the given parameters
+	 * 
+	 * @param plugin
+	 *            The plugin the Edit is related to, used for tasks
+	 * @param player
+	 *            The player who initiated the Edit
+	 * @param start
+	 *            The start location for the Edit
+	 * @param material
+	 *            The material to write characters in
+	 * @param direction
+	 *            The direction to write characters in
+	 * @param world
+	 *            The world the edit takes place in
+	 * @param characters
+	 *            All of the characters to be written out
+	 * @throws UnsupportedCharacterException
+	 *             If a given character isn't supported by SkyPrint
+	 */
 	public Edit(final Plugin plugin, final UUID player,
 			final LocationData start, final Material material,
 			final Direction direction, final String world,
@@ -57,7 +100,7 @@ public final class Edit {
 	/**
 	 * Writes the characters this Editor was provided upon instantiation, in the
 	 * provided material and direction, starting from the provided starting
-	 * location. This is probably slow as fuck. Oh well
+	 * location.
 	 */
 	public void write() {
 		new BukkitRunnable() {
@@ -120,10 +163,25 @@ public final class Edit {
 		}
 	}
 
+	/**
+	 * Gets the unique identifier of the player who intiated the Edit
+	 * 
+	 * @return The unique identifier of the player who initiated the Edit
+	 */
 	public UUID getPlayerId() {
 		return player;
 	}
 
+	/**
+	 * Calculates the modifiers for x and z needed with this Edit's direction
+	 * for the given distance value
+	 * 
+	 * @param distance
+	 *            The distance to calculate modifiers for
+	 * @return An int[] where the first index has the x modifier and the second
+	 *         has the z modifier required over the given distance in the
+	 *         direction for this Edit
+	 */
 	private int[] calcMod(final int distance) {
 		switch (direction) {
 		case NORTH:
