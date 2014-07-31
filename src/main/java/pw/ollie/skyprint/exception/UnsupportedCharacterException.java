@@ -7,15 +7,15 @@ public final class UnsupportedCharacterException extends Exception {
 		super();
 	}
 
-	public UnsupportedCharacterException(String c, Throwable t) {
+	public UnsupportedCharacterException(final String c, final Throwable t) {
 		super(c, t);
 	}
 
-	public UnsupportedCharacterException(String c) {
+	public UnsupportedCharacterException(final String c) {
 		super(c);
 	}
 
-	public UnsupportedCharacterException(Throwable t) {
+	public UnsupportedCharacterException(final Throwable t) {
 		super(t);
 	}
 }

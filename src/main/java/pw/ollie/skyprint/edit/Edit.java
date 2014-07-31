@@ -1,4 +1,4 @@
-package pw.ollie.skyprint;
+package pw.ollie.skyprint.edit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +28,8 @@ public final class Edit {
 	private final Direction direction;
 	private final String world;
 
-	private SkyCharacter[] characters;
-	private List<BlockChange> changed;
+	private final SkyCharacter[] characters;
+	private final List<BlockChange> changed;
 
 	public Edit(final Plugin plugin, final UUID player,
 			final LocationData start, final Material material,
@@ -65,7 +65,9 @@ public final class Edit {
 			public void run() {
 				final List<LocationData> list = new ArrayList<>();
 
-				int modX = 0, modY = 0, modZ = 0;
+				int modX = 0;
+				final int modY = 0;
+				int modZ = 0;
 				for (final SkyCharacter sc : characters) {
 					final LocationData cur = new LocationData(start.x + modX,
 							start.y + modY, start.z + modZ);
@@ -122,7 +124,7 @@ public final class Edit {
 		return player;
 	}
 
-	private int[] calcMod(int distance) {
+	private int[] calcMod(final int distance) {
 		switch (direction) {
 		case NORTH:
 			return new int[] { 0, distance };

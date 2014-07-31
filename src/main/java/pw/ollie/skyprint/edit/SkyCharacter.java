@@ -1,4 +1,4 @@
-package pw.ollie.skyprint;
+package pw.ollie.skyprint.edit;
 
 /**
  * A representation of all characters which can be written by SkyPrint. Each of
@@ -172,9 +172,9 @@ public enum SkyCharacter {
 		return binary;
 	}
 
-	public static SkyCharacter fromChar(char character) {
-		for (SkyCharacter sc : values()) {
-			if (sc.getCharacter() == (character)) {
+	public static SkyCharacter fromChar(final char character) {
+		for (final SkyCharacter sc : values()) {
+			if (sc.getCharacter() == character) {
 				return sc;
 			}
 		}

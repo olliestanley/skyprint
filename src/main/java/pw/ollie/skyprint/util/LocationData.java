@@ -19,6 +19,7 @@ public final class LocationData {
 		this(data.x, data.y, data.z);
 	}
 
+	@Override
 	public String toString() {
 		return x + " " + y + " " + z;
 	}

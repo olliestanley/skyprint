@@ -7,15 +7,15 @@ public final class InvalidRotationException extends Exception {
 		super();
 	}
 
-	public InvalidRotationException(String c, Throwable t) {
+	public InvalidRotationException(final String c, final Throwable t) {
 		super(c, t);
 	}
 
-	public InvalidRotationException(String c) {
+	public InvalidRotationException(final String c) {
 		super(c);
 	}
 
-	public InvalidRotationException(Throwable t) {
+	public InvalidRotationException(final Throwable t) {
 		super(t);
 	}
 }
