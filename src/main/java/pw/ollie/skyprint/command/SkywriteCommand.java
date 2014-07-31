@@ -17,10 +17,27 @@ import pw.ollie.skyprint.exception.UnsupportedCharacterException;
 import pw.ollie.skyprint.util.Direction;
 import pw.ollie.skyprint.util.LocationData;
 
+/**
+ * Contains functionality for the SkyPrint /skywrite command, which allows the
+ * 'writing' of characters using blocks in Minecraft
+ */
 public class SkywriteCommand implements CommandExecutor {
+	/**
+	 * The SkyPrint plugin instance
+	 */
 	private final SkyPrint plugin;
+	/**
+	 * The {@link EditManager} instance for management of {@link Edit} objects
+	 */
 	private final EditManager editMgr;
 
+	/**
+	 * Constructs a new SkyundoCommand using the {@link EditManager} from the
+	 * given plugin
+	 * 
+	 * @param plugin
+	 *            The SkyPrint instance to use for editing
+	 */
 	public SkywriteCommand(final SkyPrint plugin) {
 		this.plugin = plugin;
 		editMgr = plugin.getEditManager();

@@ -12,9 +12,24 @@ import pw.ollie.skyprint.SkyPrint;
 import pw.ollie.skyprint.edit.Edit;
 import pw.ollie.skyprint.edit.EditManager;
 
+/**
+ * Contains functionality for the SkyPrint /skyundo command, which allows the
+ * undoing of block changes made using SkyPrint
+ */
 public class SkyundoCommand implements CommandExecutor {
+	/**
+	 * The SkyPrint {@link EditManager} instance
+	 */
 	private final EditManager editMgr;
 
+	/**
+	 * Constructs a new SkyundoCommand using the {@link EditManager} from the
+	 * given plugin
+	 * 
+	 * @param plugin
+	 *            The SkyPrint instance to get the {@link EditManager} instance
+	 *            from
+	 */
 	public SkyundoCommand(final SkyPrint plugin) {
 		editMgr = plugin.getEditManager();
 	}
