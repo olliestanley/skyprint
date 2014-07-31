@@ -4,12 +4,36 @@ import org.bukkit.Location;
 
 import pw.ollie.skyprint.exception.InvalidRotationException;
 
+/**
+ * An enum containing all base cardinal directions
+ */
 public enum Direction {
+	/**
+	 * North
+	 */
 	NORTH,
+	/**
+	 * East
+	 */
 	EAST,
+	/**
+	 * South
+	 */
 	SOUTH,
+	/**
+	 * West
+	 */
 	WEST;
 
+	/**
+	 * Gets a cardinal direction from the yaw value of the given location
+	 * 
+	 * @param loc
+	 *            The location to get the cardinal direction from
+	 * @return A cardinal direction from the yaw value of the given location
+	 * @throws InvalidRotationException
+	 *             If the location has an invalid yaw value
+	 */
 	public static Direction fromLocation(final Location loc)
 			throws InvalidRotationException {
 		double rot = (loc.getYaw() - 90) % 360;
