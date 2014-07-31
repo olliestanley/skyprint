@@ -159,22 +159,56 @@ public enum SkyCharacter {
 			'\\',
 			new int[][] { new int[] { 0, 0, 0, 0 }, new int[] { 1, 0, 0, 0 }, new int[] { 0, 1, 0, 0 }, new int[] { 0, 0, 1, 0 }, new int[] { 0, 0, 0, 1 } });
 
-	private final int[][] binary;
+	/**
+	 * The actual character being represented
+	 */
 	private final char character;
+	/**
+	 * The raw values of the shape required for the character to be formed in
+	 * minecraft
+	 */
+	private final int[][] binary;
 
+	/**
+	 * Constructs a new SkyCharacter from the given arguments
+	 * 
+	 * @param character
+	 *            The raw char this SkyCharacter represents
+	 * @param binary
+	 *            A representation of the shapes required to build the character
+	 *            in Minecraft
+	 */
 	private SkyCharacter(final char character, final int[][] binary) {
 		this.character = character;
 		this.binary = binary;
 	}
 
+	/**
+	 * Gets the char for this SkyCharacter
+	 * 
+	 * @return The char for this SkyCharacter
+	 */
 	public char getCharacter() {
 		return character;
 	}
 
+	/**
+	 * Gets the representation of this character as a two-dimensional array
+	 * 
+	 * @return The representation in 1s and 0s of the shape of this character
+	 */
 	public int[][] getRaw() {
 		return binary;
 	}
 
+	/**
+	 * Gets the SkyCharacter object from the given char, returning null if the
+	 * given char has no SkyCharacter object
+	 * 
+	 * @param character
+	 *            The char to get the SkyCharacter from
+	 * @return The SkyCharacter for the given char
+	 */
 	public static SkyCharacter fromChar(final char character) {
 		for (final SkyCharacter sc : values()) {
 			if (sc.getCharacter() == character) {
