@@ -1,5 +1,8 @@
 package pw.ollie.skyprint.exception;
 
+/**
+ * Thrown if SkyPrint doesn't support a character given in the /skywrite command
+ */
 public final class UnsupportedCharacterException extends Exception {
 	private static final long serialVersionUID = 7468280828814598365L;
 
