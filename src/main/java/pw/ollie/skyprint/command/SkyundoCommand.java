@@ -26,11 +26,10 @@ public class SkyundoCommand implements CommandExecutor {
      * Constructs a new SkyundoCommand using the {@link EditManager} from the
      * given plugin
      * 
-     * @param plugin The SkyPrint instance to get the {@link EditManager}
-     *        instance from
+     * @param editMgr The SkyPrint {@link EditManager} instance
      */
-    public SkyundoCommand(final SkyPrint plugin) {
-        editMgr = plugin.getEditManager();
+    public SkyundoCommand(final EditManager editMgr) {
+        this.editMgr = editMgr;
     }
 
     @Override

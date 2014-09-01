@@ -41,16 +41,4 @@ public class EditManager {
     public void remove(final Edit edit) {
         edits.remove(edit);
     }
-
-    /**
-     * Checks whether the {@link ArrayList} of SkyPrint {@link Edit} objects
-     * contains the given {@link Edit}
-     * 
-     * @param edit The {@link Edit} to check for
-     * @return True if the Edits {@link ArrayList} contains the given
-     *         {@link Edit}, otherwise false
-     */
-    public boolean contains(final Edit edit) {
-        return edits.contains(edit);
-    }
 }

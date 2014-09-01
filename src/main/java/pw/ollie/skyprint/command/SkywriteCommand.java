@@ -36,10 +36,11 @@ public class SkywriteCommand implements CommandExecutor {
      * given plugin
      * 
      * @param plugin The SkyPrint instance to use for editing
+     * @param editMgr The SkyPrint {@link EditManager} instance
      */
-    public SkywriteCommand(final SkyPrint plugin) {
+    public SkywriteCommand(final SkyPrint plugin, final EditManager editMgr) {
         this.plugin = plugin;
-        editMgr = plugin.getEditManager();
+        this.editMgr = editMgr;
     }
 
     @Override
