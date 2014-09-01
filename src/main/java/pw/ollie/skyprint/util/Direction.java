@@ -2,8 +2,6 @@ package pw.ollie.skyprint.util;
 
 import pw.ollie.skyprint.exception.InvalidRotationException;
 
-import org.bukkit.Location;
-
 /**
  * An enum containing base cardinal directions
  */
@@ -68,11 +66,9 @@ public enum Direction {
      * @return A cardinal direction from the yaw value of the given location
      * @throws InvalidRotationException If the location has an invalid yaw value
      */
-    public static Direction fromLocation(final Location loc)
-            throws InvalidRotationException {
+    public static Direction fromYaw(final float yaw) throws InvalidRotationException {
         // convert to a 'real' yaw value
-        double rot = (loc.getYaw() - 90) % 360;
-        rot = rot < 0 ? rot + 360 : rot;
+        double rot = Utilities.toRealYaw(yaw);
 
         // get the cardinal direction from the rotation
         if (0 <= rot && rot < 22.5) {
