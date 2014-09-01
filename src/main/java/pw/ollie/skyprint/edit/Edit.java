@@ -80,9 +80,10 @@ public final class Edit {
 
         this.characters = new SkyCharacter[characters.length];
         for (int cur = 0; cur < characters.length; cur++) {
-            this.characters[cur] = SkyCharacter.fromChar(characters[cur]);
+            final char character = characters[cur];
+            this.characters[cur] = SkyCharacter.fromChar(character);
             if (this.characters[cur] == null) {
-                throw new UnsupportedCharacterException(String.valueOf(characters[cur]));
+                throw new UnsupportedCharacterException(String.valueOf(character));
             }
         }
 
